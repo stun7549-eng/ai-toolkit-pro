@@ -1,7 +1,9 @@
-import streamlit as st
+iimport streamlit as st
 import google.generativeai as genai
 import asyncio
 import edge_tts
+import whisper
+import tempfile
 
 # CONFIG
 st.set_page_config(page_title="AI Toolkit PRO", layout="wide")
@@ -18,7 +20,7 @@ menu = st.radio("Select Tool", [
     "🔊 AI Voice",
     "🌍 Translate",
     "✍️ Content Creator"
-])"📝 SRT Sub",
+"📝 SRT Sub",
 
 # ---------------- VOICE FUNCTION ----------------
 async def generate_voice(text):
