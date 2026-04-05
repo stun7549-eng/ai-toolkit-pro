@@ -18,7 +18,7 @@ menu = st.radio("Select Tool", [
     "🔊 AI Voice",
     "🌍 Translate",
     "✍️ Content Creator"
-])
+])"📝 SRT Sub",
 
 # ---------------- VOICE FUNCTION ----------------
 async def generate_voice(text):
