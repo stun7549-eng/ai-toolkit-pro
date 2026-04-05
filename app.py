@@ -76,7 +76,50 @@ elif menu == "🌍 Translate":
             )
             st.write(result.text)
         else:
-            st.warning("စာသားထည့်ပါ")
+            st.warning("စာသားထည့်ပါ")import whisper
+import tempfile
+
+# ---------------- SRT TOOL ----------------
+elif menu == "📝 SRT Sub":
+    st.header("📝 Video → SRT Subtitle")
+
+    uploaded_file = st.file_uploader("📹 Upload Video", type=["mp4", "mov", "mkv"])
+
+    if uploaded_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp_file:
+            tmp_file.write(uploaded_file.read())
+            video_path = tmp_file.name
+
+        st.info("⏳ Transcribing...")
+
+        model_whisper = whisper.load_model("base")
+        result = model_whisper.transcribe(video_path)
+
+        # Convert to SRT
+        def format_time(seconds):
+            hrs = int(seconds // 3600)
+            mins = int((seconds % 3600) // 60)
+            secs = int(seconds % 60)
+            millis = int((seconds - int(seconds)) * 1000)
+            return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
+
+        srt_content = ""
+        for i, seg in enumerate(result["segments"]):
+            start = format_time(seg["start"])
+            end = format_time(seg["end"])
+            text = seg["text"]
+
+            srt_content += f"{i+1}\n{start} --> {end}\n{text}\n\n"
+
+        st.subheader("📄 SRT Preview")
+        st.text(srt_content)
+
+        st.download_button(
+            label="⬇️ Download SRT",
+            data=srt_content,
+            file_name="subtitles.srt",
+            mime="text/plain"
+        )
 
 # ---------------- CONTENT CREATOR ----------------
 elif menu == "✍️ Content Creator":
