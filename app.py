@@ -154,7 +154,6 @@ elif st.session_state.page == "content":
             st.write(result.text)
 
 # ---------------- VIDEO → SRT ----------------
-# ---------------- VIDEO → SRT ----------------
 elif st.session_state.page == "srt":
 
     if st.button("⬅ Back"):
