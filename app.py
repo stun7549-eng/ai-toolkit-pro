@@ -37,6 +37,16 @@ div.stButton > button {
 """, unsafe_allow_html=True)
 
 # ---------------- VOICE ----------------
+@st.cache_resource
+def load_whisper():
+    return whisper.load_model("tiny")
+#🔥 SRT time format function
+def format_time(seconds):
+    hrs = int(seconds // 3600)
+    mins = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    millis = int((seconds - int(seconds)) * 1000)
+    return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
 async def generate_voice(text):
     tts = edge_tts.Communicate(text, "my-MM-NilarNeural")
     await tts.save("voice.mp3")
@@ -160,12 +170,15 @@ elif st.session_state.page == "srt":
 
         st.info("Transcribing...")
 
-        model_w = whisper.load_model("tiny")  # faster
+        model_w = load_whisper()
         result = model_w.transcribe(path)
 
         srt = ""
         for i, seg in enumerate(result["segments"]):
-            srt += f"{i+1}\n{seg['start']} --> {seg['end']}\n{seg['text']}\n\n"
+    start = format_time(seg["start"])
+    end = format_time(seg["end"])
+
+    srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
 
         st.text(srt)
 
@@ -196,7 +209,7 @@ elif st.session_state.page == "yt":
 
             st.info("Transcribing...")
 
-            model_w = whisper.load_model("tiny")
+            model_w = load_whisper()
             audio_file = glob.glob("audio.*")[0]
 
             result = model_w.transcribe(audio_file)
@@ -219,6 +232,9 @@ elif st.session_state.page == "yt":
 
             srt = ""
             for i, seg in enumerate(result["segments"]):
-                srt += f"{i+1}\n{seg['start']} --> {seg['end']}\n{seg['text']}\n\n"
+    start = format_time(seg["start"])
+    end = format_time(seg["end"])
+
+    srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
 
             st.download_button("⬇ Download SRT", srt, file_name="youtube.srt")
