@@ -50,6 +50,8 @@ model = genai.GenerativeModel("gemini-1.5-flash")
 
 # VOICE
 async def generate_voice(text):
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     tts = edge_tts.Communicate(text, "my-MM-NilarNeural")
     await tts.save("voice.mp3")
 
@@ -59,6 +61,8 @@ if "page" not in st.session_state:
 
 # ---------------- HOME UI ----------------
 if st.session_state.page == "home":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.title("🚀 Your Creative AI Toolkit")
     st.write("Scripts, stories, translations, thumbnails & voices — all powered by AI")
 
@@ -93,15 +97,17 @@ tools = [
     ("📝 SRT Sub", "srt"),
     ("📺 YouTube AI", "yt"),
 ]
-
 for i, (name, key) in enumerate(tools):
     with cols[i % 4]:
         st.markdown(f"<div class='card'><h3>{name}</h3></div>", unsafe_allow_html=True)
         if st.button("Launch →", key=key):
             st.session_state.page = key
 
+
 # ---------------- RECAP ----------------
 if st.session_state.page == "recap":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("🎬 Movie Recapper")
 
     text = st.text_area("📄 Paste Transcript")
@@ -120,6 +126,8 @@ if st.session_state.page == "recap":
 
 # ---------------- VOICE ----------------
 elif st.session_state.page == "voice":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("🔊 AI Voice")
 
     text = st.text_area("📄 Text")
@@ -132,6 +140,8 @@ elif st.session_state.page == "voice":
 
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("🌍 Translate")
 
     text = st.text_area("📄 Enter text")
@@ -142,6 +152,8 @@ elif st.session_state.page == "translate":
 
 # ---------------- CONTENT ----------------
 elif st.session_state.page == "content":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("✍️ Content Creator")
 
     text = st.text_area("📄 Topic")
@@ -152,6 +164,8 @@ elif st.session_state.page == "content":
 
 # ---------------- SRT ----------------
 elif st.session_state.page == "srt":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("📝 Video → SRT")
 
     file = st.file_uploader("Upload Video", type=["mp4"])
@@ -174,6 +188,8 @@ elif st.session_state.page == "srt":
 
 # ---------------- YOUTUBE ----------------
 elif st.session_state.page == "yt":
+    if st.button("⬅ Back"):
+    st.session_state.page = "home"
     st.header("📺 YouTube AI")
 
     url = st.text_input("YouTube Link")
