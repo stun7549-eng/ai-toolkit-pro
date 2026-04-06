@@ -10,6 +10,41 @@ import glob
 # CONFIG
 st.set_page_config(page_title="AI Toolkit PRO MAX", layout="wide")
 
+# 👉 ဒီအောက်မှာ CSS ထည့်
+st.markdown("""
+<style>
+body {
+    background-color: #0e1117;
+    color: white;
+}
+
+.block-container {
+    padding-top: 2rem;
+}
+
+div.stButton > button {
+    background-color: #ff4b4b;
+    color: white;
+    border-radius: 10px;
+    height: 45px;
+    width: 100%;
+    font-weight: bold;
+}
+
+div.stButton > button:hover {
+    background-color: #ff2b2b;
+}
+
+.card {
+    background-color: #161b22;
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
+}
+</style>
+""", unsafe_allow_html=True)
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 model = genai.GenerativeModel("gemini-1.5-flash")
 
@@ -45,9 +80,25 @@ if st.session_state.page == "home":
                 st.session_state.page = key
 
 # ---------------- BACK BUTTON ----------------
-if st.session_state.page != "home":
-    if st.button("⬅ Back"):
-        st.session_state.page = "home"
+if st.title("🚀 Your Creative AI Toolkit")
+st.write("Scripts, stories, translations, thumbnails & voices — all powered by AI")
+
+cols = st.columns(4)
+
+tools = [
+    ("🎬 Recapper", "recap"),
+    ("🔊 AI Voice", "voice"),
+    ("🌍 Translate", "translate"),
+    ("✍️ Content Creator", "content"),
+    ("📝 SRT Sub", "srt"),
+    ("📺 YouTube AI", "yt"),
+]
+
+for i, (name, key) in enumerate(tools):
+    with cols[i % 4]:
+        st.markdown(f"<div class='card'><h3>{name}</h3></div>", unsafe_allow_html=True)
+        if st.button("Launch →", key=key):
+            st.session_state.page = key
 
 # ---------------- RECAP ----------------
 if st.session_state.page == "recap":
