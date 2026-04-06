@@ -77,19 +77,26 @@ elif st.session_state.page == "recap":
 
     text = st.text_area("📄 Paste Transcript")
 
-    if st.button("Generate Recap"):
-        if text:
-            recap = model.generate_content(
-                f"ဒီစာကို exciting Burmese movie recap style နဲ့ရေးပါ:\n{text}"
-            ).text
+    if st.button("Generate Recap"):   # ✅ inside recap
+        if text.strip():
+            try:
+                response = model.generate_content(
+                    f"ဒီစာကို exciting Burmese movie recap style နဲ့ရေးပါ:\n{text}"
+                )
 
-            st.subheader("🎬 Recap")
-            st.write(recap)
+                recap = response.text if response.text else "No response"
 
-            asyncio.run(generate_voice(recap))
-            with open("voice.mp3", "rb") as f:
-                st.audio(f.read(), format="audio/mp3")
+                st.write(recap)
 
+                asyncio.run(generate_voice(recap))
+                with open("voice.mp3", "rb") as f:
+                    st.audio(f.read(), format="audio/mp3")
+
+            except Exception as e:
+                st.error(f"Error: {e}")
+
+        else:
+            st.warning("စာသားထည့်ပါ ❗")
 # ---------------- VOICE ----------------
 elif st.session_state.page == "voice":
 
