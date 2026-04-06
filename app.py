@@ -154,18 +154,36 @@ elif st.session_state.page == "content":
             st.write(result.text)
 
 # ---------------- VIDEO → SRT ----------------
-if file:
-    ...
-    result = model_w.transcribe(path)
+# ---------------- VIDEO → SRT ----------------
+elif st.session_state.page == "srt":
 
-    srt = ""
-    for i, seg in enumerate(result["segments"]):
-        start = format_time(seg["start"])
-        end = format_time(seg["end"])
-        srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
+    if st.button("⬅ Back"):
+        st.session_state.page = "home"
 
-    st.text(srt)
-    st.download_button(...)
+    st.header("📝 Video → SRT")
+
+    file = st.file_uploader("Upload Video", type=["mp4", "mov", "mkv"])
+
+    if file:
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            tmp.write(file.read())
+            path = tmp.name
+
+        st.info("Transcribing...")
+
+        model_w = load_whisper()
+        result = model_w.transcribe(path)
+
+        srt = ""
+        for i, seg in enumerate(result["segments"]):
+            start = format_time(seg["start"])
+            end = format_time(seg["end"])
+
+            srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
+
+        st.text(srt)
+
+        st.download_button("⬇ Download SRT", srt, file_name="subtitles.srt")
 # ---------------- YOUTUBE ----------------
 elif st.session_state.page == "yt":
 
