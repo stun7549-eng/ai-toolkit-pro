@@ -11,7 +11,7 @@ import glob
 st.set_page_config(page_title="AI Toolkit PRO MAX", layout="wide")
 
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
-model = genai.GenerativeModel("models/gemini-1.5-flash-latest")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # ---------------- CSS ----------------
 st.markdown("""
@@ -91,10 +91,10 @@ elif st.session_state.page == "recap":
         if text.strip():
             try:
                 response = model.generate_content(
-                    f"ဒီစာကို exciting Burmese movie recap style နဲ့ရေးပါ:\n{text}"
-                )
+    f"ဒီ video ကို Burmese recap style နဲ့ရေး:\n{transcript}"
+)
 
-                recap = response.text if response.text else "No response"
+recap = response.text if response.text else "No response"
 
                 st.write(recap)
 
