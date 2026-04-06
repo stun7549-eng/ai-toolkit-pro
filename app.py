@@ -229,11 +229,14 @@ elif st.session_state.page == "yt":
             with open("voice.mp3", "rb") as f:
                 st.audio(f.read(), format="audio/mp3")
 
-srt = ""
-for i, seg in enumerate(result["segments"]):
-    start = format_time(seg["start"])
-    end = format_time(seg["end"])
+            # 🔥 SRT generate (ဒီနေရာထဲမှာပဲ)
+            srt = ""
+            for i, seg in enumerate(result["segments"]):
+                start = format_time(seg["start"])
+                end = format_time(seg["end"])
 
-    srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
+                srt += f"{i+1}\n{start} --> {end}\n{seg['text']}\n\n"
 
-            st.download_button("⬇ Download SRT", srt, file_name="subtitles.srt")
+            st.download_button("⬇ Download SRT", srt, file_name="youtube.srt")
+
+    
