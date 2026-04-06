@@ -174,7 +174,7 @@ elif st.session_state.page == "srt":
         result = model_w.transcribe(path)
 
         srt = ""
-        for i, seg in enumerate(result["segments"]):
+for i, seg in enumerate(result["segments"]):
     start = format_time(seg["start"])
     end = format_time(seg["end"])
 
@@ -182,8 +182,7 @@ elif st.session_state.page == "srt":
 
         st.text(srt)
 
-        st.download_button("⬇ Download SRT", srt, file_name="subtitles.srt")
-
+        st.download_button("⬇ Download SRT", srt
 # ---------------- YOUTUBE ----------------
 elif st.session_state.page == "yt":
 
@@ -230,8 +229,8 @@ elif st.session_state.page == "yt":
             with open("voice.mp3", "rb") as f:
                 st.audio(f.read(), format="audio/mp3")
 
-            srt = ""
-            for i, seg in enumerate(result["segments"]):
+srt = ""
+for i, seg in enumerate(result["segments"]):
     start = format_time(seg["start"])
     end = format_time(seg["end"])
 
