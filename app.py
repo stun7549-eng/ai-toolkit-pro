@@ -14,10 +14,11 @@ st.set_page_config(page_title="AI Toolkit PRO MAX", layout="wide")
 genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
 # ✅ SAFE MODEL (fallback)
+# ✅ SAFE MODEL (BEST FIX)
 try:
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-1.5-pro")
 except:
-    model = genai.GenerativeModel("gemini-1.5-flash-001")
+    model = genai.GenerativeModel("gemini-1.5-pro")
 
 # ---------------- CSS ----------------
 st.markdown("""
