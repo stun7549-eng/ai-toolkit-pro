@@ -89,21 +89,21 @@ elif st.session_state.page == "recap":
 
     if st.button("Generate Recap"):   # ✅ inside recap
         if text.strip():
-            try:
-                response = model.generate_content(
-    f"ဒီ video ကို Burmese recap style နဲ့ရေး:\n{transcript}"
-)
+ try:
+    response = model.generate_content(
+        f"ဒီစာကို exciting Burmese movie recap style နဲ့ရေးပါ:\n{text}"
+    )
 
-recap = response.text if response.text else "No response"
+    recap = response.text if response.text else "No response"
 
-                st.write(recap)
+    st.write(recap)
 
-                asyncio.run(generate_voice(recap))
-                with open("voice.mp3", "rb") as f:
-                    st.audio(f.read(), format="audio/mp3")
+    asyncio.run(generate_voice(recap))
+    with open("voice.mp3", "rb") as f:
+        st.audio(f.read(), format="audio/mp3")
 
-            except Exception as e:
-                st.error(f"Error: {e}")
+except Exception as e:
+    st.error(f"Error: {e}")
 
         else:
             st.warning("စာသားထည့်ပါ ❗")
