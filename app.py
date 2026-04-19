@@ -87,12 +87,12 @@ async def generate_voice(text, voice_data):
         await tts.save("voice.mp3")
 
     except:
-        voice_options = {
-    "🇲🇲 Nilar (Normal)": "my-MM-NilarNeural",
-    "🇲🇲 Nilar (Slow)": ("my-MM-NilarNeural", "-10%"),
-    "🇲🇲 Nilar (Fast)": ("my-MM-NilarNeural", "+10%"),
-    "🌏 Thai Female (Fallback)": "th-TH-PremwadeeNeural",
-}
+        # fallback voice
+        tts = edge_tts.Communicate(text, "th-TH-PremwadeeNeural")
+        await tts.save("voice.mp3")
+
+
+
 
 # ---------------- SESSION ----------------
 if "page" not in st.session_state:
@@ -153,26 +153,12 @@ elif st.session_state.page == "recap":
     
 
 # ---------------- VOICE ----------------
-elif st.session_state.page == "voice":
-    st.header("🔊 AI Voice")
-    if st.button("⬅ Back"):
-        st.session_state.page = "home"
+selected_voice = st.selectbox(
+    "🎙 Voice ရွေးပါ",
+    list(voice_options.keys())
+)
 
-    text = st.text_area("Enter Text")
-
-    if st.button("Generate Voice"):
-        if text:
-            asyncio.run(generate_voice(text))
-            st.audio("voice.mp3")
-
-            with open("voice.mp3", "rb") as f:
-                st.download_button(
-                    "⬇️ Download Voice",
-                    f,
-                    "voice.mp3",
-                    "audio/mpeg"
-                )
-
+voice_data = voice_options[selected_voice]
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
     st.header("🌍 Translate")
