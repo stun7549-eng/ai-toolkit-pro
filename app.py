@@ -199,3 +199,19 @@ elif st.session_state.page == "yt":
             srt += f"{i+1}\n{format_time(seg['start'])} --> {format_time(seg['end'])}\n{seg['text']}\n\n"
 
         st.download_button("Download SRT", srt, "youtube.srt")
+        # ---------------- THUMBNAIL ----------------
+elif st.session_state.page == "thumbnail":
+    st.header("🎨 Thumbnail Generator")
+
+    if st.button("⬅ Back"):
+        st.session_state.page = "home"
+
+    prompt = st.text_area("Describe Thumbnail")
+
+    if st.button("Generate Thumbnail"):
+        if prompt:
+            img_prompt = f"YouTube thumbnail, cinematic, viral, high contrast: {prompt}"
+            res = model.generate_content(img_prompt)
+
+            st.write("👉 Prompt Generated:")
+            st.write(res.text)
