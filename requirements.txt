@@ -3,4 +3,5 @@ google-generativeai
 edge-tts
 openai-whisper
 ffmpeg-python
+imageio-ffmpeg
 yt-dlp
