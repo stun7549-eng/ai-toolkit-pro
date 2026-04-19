@@ -76,9 +76,23 @@ def format_time(seconds):
     millis = int((seconds - int(seconds)) * 1000)
     return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
 
-async def generate_voice(text):
-    tts = edge_tts.Communicate(text, "my-MM-NilarNeural")
-    await tts.save("voice.mp3")
+async def generate_voice(text, voice_data):
+    try:
+        if isinstance(voice_data, tuple):
+            voice_name, rate = voice_data
+        else:
+            voice_name, rate = voice_data, "0%"
+
+        tts = edge_tts.Communicate(text, voice_name, rate=rate)
+        await tts.save("voice.mp3")
+
+    except:
+        voice_options = {
+    "🇲🇲 Nilar (Normal)": "my-MM-NilarNeural",
+    "🇲🇲 Nilar (Slow)": ("my-MM-NilarNeural", "-10%"),
+    "🇲🇲 Nilar (Fast)": ("my-MM-NilarNeural", "+10%"),
+    "🌏 Thai Female (Fallback)": "th-TH-PremwadeeNeural",
+}
 
 # ---------------- SESSION ----------------
 if "page" not in st.session_state:
