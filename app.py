@@ -118,23 +118,24 @@ elif st.session_state.page == "recap":
         st.session_state.page = "home"
 
     text = st.text_area("Paste Transcript")
-if st.button("Generate Recap"):
-    if text:
-        res = model.generate_content(f"ဒီစာကို Burmese movie recap style နဲ့ရေး:\n{text}")
-        recap = res.text
-        st.success("Done!")
-        st.write(recap)
 
-        asyncio.run(generate_voice(recap))
-        st.audio("voice.mp3")
+    if st.button("Generate Recap"):
+        if text:
+            res = model.generate_content(f"ဒီစာကို Burmese movie recap style နဲ့ရေး:\n{text}")
+            recap = res.text
+            st.success("Done!")
+            st.write(recap)
 
-        with open("voice.mp3", "rb") as f:
-            st.download_button(
-                label="⬇️ Download Voice",
-                data=f,
-                file_name="recap_voice.mp3",
-                mime="audio/mpeg"
-            )
+            asyncio.run(generate_voice(recap))
+            st.audio("voice.mp3")
+
+            with open("voice.mp3", "rb") as f:
+                st.download_button(
+                    label="⬇️ Download Voice",
+                    data=f,
+                    file_name="recap_voice.mp3",
+                    mime="audio/mpeg"
+                )
     
 
 # ---------------- VOICE ----------------
@@ -146,17 +147,17 @@ elif st.session_state.page == "voice":
     text = st.text_area("Enter Text")
 
     if st.button("Generate Voice"):
-    if text:
-        asyncio.run(generate_voice(text))
-        st.audio("voice.mp3")
+        if text:
+            asyncio.run(generate_voice(text))
+            st.audio("voice.mp3")
 
-        with open("voice.mp3", "rb") as f:
-            st.download_button(
-                "⬇️ Download Voice",
-                f,
-                "voice.mp3",
-                "audio/mpeg"
-            )
+            with open("voice.mp3", "rb") as f:
+                st.download_button(
+                    "⬇️ Download Voice",
+                    f,
+                    "voice.mp3",
+                    "audio/mpeg"
+                )
 
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
