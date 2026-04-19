@@ -153,12 +153,40 @@ elif st.session_state.page == "recap":
     
 
 # ---------------- VOICE ----------------
-selected_voice = st.selectbox(
-    "🎙 Voice ရွေးပါ",
-    list(voice_options.keys())
-)
+elif st.session_state.page == "voice":
+    st.header("🔊 AI Voice")
 
-voice_data = voice_options[selected_voice]
+    if st.button("⬅ Back"):
+        st.session_state.page = "home"
+
+    text = st.text_area("Enter Text")
+
+    # ✅ Male voices only
+    voice_options = {
+        "🇲🇲 Myanmar Male (Fallback)": "th-TH-NiwatNeural",
+        "🇺🇸 English Male": "en-US-GuyNeural",
+        "🇬🇧 UK Male": "en-GB-RyanNeural",
+    }
+
+    selected_voice = st.selectbox(
+        "🎙 ယောက်ျားအသံရွေးပါ",
+        list(voice_options.keys())
+    )
+
+    voice_data = voice_options[selected_voice]
+
+    if st.button("Generate Voice"):
+        if text:
+            asyncio.run(generate_voice(text, voice_data))
+            st.audio("voice.mp3")
+
+            with open("voice.mp3", "rb") as f:
+                st.download_button(
+                    "⬇️ Download Voice",
+                    f,
+                    "voice.mp3",
+                    "audio/mpeg"
+                )
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
     st.header("🌍 Translate")
