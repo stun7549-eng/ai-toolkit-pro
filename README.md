@@ -14,7 +14,7 @@ All-in-one AI app for scripts, stories, translation, thumbnails & voice generati
 - 📝 SRT Subtitle Tool
 - 📚 Novel Translator (PDF/EPUB)
 - 🔊 AI Voice (Text to Speech)
-
+-("🎨 Thumbnail AI", "thumbnail")
 ---
 
 ## 🚀 How to Use
