@@ -127,7 +127,13 @@ elif st.session_state.page == "recap":
             st.write(recap)
 
             asyncio.run(generate_voice(recap))
-            st.audio("voice.mp3")
+            with open("voice.mp3", "rb") as f:
+    st.download_button(
+        label="⬇️ Download Voice",
+        data=f,
+        file_name="voice.mp3",
+        mime="audio/mpeg"
+    )
 
 # ---------------- VOICE ----------------
 elif st.session_state.page == "voice":
@@ -137,10 +143,18 @@ elif st.session_state.page == "voice":
 
     text = st.text_area("Enter Text")
 
-    if st.button("Generate Voice"):
-        if text:
-            asyncio.run(generate_voice(text))
-            st.audio("voice.mp3")
+    iif st.button("Generate Voice"):
+    if text:
+        asyncio.run(generate_voice(text))
+        st.audio("voice.mp3")
+
+        with open("voice.mp3", "rb") as f:
+            st.download_button(
+                "⬇️ Download Voice",
+                f,
+                "voice.mp3",
+                "audio/mpeg"
+            )
 
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
