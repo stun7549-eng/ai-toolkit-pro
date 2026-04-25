@@ -156,7 +156,7 @@ elif st.session_state.page == "voice":
     "👨 Male 9": "en-NZ-MitchellNeural",
     "👨 Male 10": "en-US-JasonNeural"
 }
-    )
+    
 
     # ✅ Text Input
     text = st.text_area("📄 Enter Text")
