@@ -130,8 +130,7 @@ elif st.session_state.page == "voice":
 
     st.header("🔊 AI Voice Generator")
 
-    # ✅ Voice Select
-    # ---------------- VOICE + SRT TO VOICE ----------------
+   # ---------------- VOICE ----------------
 elif st.session_state.page == "voice":
 
     if st.button("⬅ Back"):
@@ -145,52 +144,22 @@ elif st.session_state.page == "voice":
     # 📂 SRT Upload
     uploaded_srt = st.file_uploader("📂 Upload SRT file", type=["srt"])
 
-    # 🔥 SRT → Text function
-    def srt_to_text(srt_content):
-        lines = srt_content.split("\n")
-        text_lines = []
-        for line in lines:
-            if "-->" not in line and not line.strip().isdigit():
-                if line.strip():
-                    text_lines.append(line.strip())
-        return " ".join(text_lines)
-
-    # 🎤 Voice list (20 voices)
+    # 🎤 Voice list
     voices = {
-        "👩 Female 1 (MM Nilar)": "my-MM-NilarNeural",
-        "👨 Male 1 (MM Thiha)": "my-MM-ThihaNeural",
-
-        "👩 Female 2": "en-US-JennyNeural",
-        "👩 Female 3": "en-GB-SoniaNeural",
-        "👩 Female 4": "en-AU-NatashaNeural",
-        "👩 Female 5": "en-IN-NeerjaNeural",
-        "👩 Female 6": "en-US-AriaNeural",
-        "👩 Female 7": "en-US-AnaNeural",
-        "👩 Female 8": "en-CA-ClaraNeural",
-        "👩 Female 9": "en-GB-LibbyNeural",
-        "👩 Female 10": "en-NZ-MollyNeural",
-
-        "👨 Male 2": "en-US-GuyNeural",
-        "👨 Male 3": "en-GB-RyanNeural",
-        "👨 Male 4": "en-AU-WilliamNeural",
-        "👨 Male 5": "en-IN-PrabhatNeural",
-        "👨 Male 6": "en-US-DavisNeural",
-        "👨 Male 7": "en-CA-LiamNeural",
-        "👨 Male 8": "en-GB-ThomasNeural",
-        "👨 Male 9": "en-NZ-MitchellNeural",
-        "👨 Male 10": "en-US-JasonNeural"
+        "👩 Female (MM Nilar)": "my-MM-NilarNeural",
+        "👨 Male (MM Thiha)": "my-MM-ThihaNeural",
+        "👩 US Female": "en-US-JennyNeural",
+        "👨 US Male": "en-US-GuyNeural"
     }
 
-    # 🎯 Voice select
     voice_label = st.selectbox("🎤 Voice ရွေးပါ", list(voices.keys()))
     voice = voices[voice_label]
 
-    # 🔊 Generate button
     if st.button("🚀 Generate Voice"):
 
         final_text = text
 
-        # 👉 SRT သုံးမယ်ဆိုရင်
+        # SRT → text
         if uploaded_srt:
             srt_content = uploaded_srt.read().decode("utf-8")
             final_text = srt_to_text(srt_content)
@@ -198,18 +167,13 @@ elif st.session_state.page == "voice":
         if final_text:
             st.info("Generating voice...")
 
-            # 🔥 IMPORTANT (voice param ထည့်)
-            async def generate_voice(text, voice):
-                tts = edge_tts.Communicate(text, voice)
-                await tts.save("voice.mp3")
-
             asyncio.run(generate_voice(final_text, voice))
 
             st.success("Done ✅")
             st.audio("voice.mp3")
 
         else:
-            st.warning("စာသား သို့မဟုတ် SRT ထည့်ပါ ❗")
+            st.warning("စာသား သို့မဟုတ် SRT ထည့်ပါ ❗") 
 
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
