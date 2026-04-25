@@ -117,18 +117,12 @@ elif st.session_state.page == "recap":
                 recap = response.text or "No response"
                 st.write(recap)
 
-                asyncio.run(generate_voice(recap))
-                st.audio("voice.mp3")
+                asyncio.run(generate_voice(recap, "my-MM-NilarNeural"))
 
             except Exception as e:
                 st.error(e)
 
-# ---------------- VOICE ----------------
-elif st.session_state.page == "voice":
-    if st.button("⬅ Back"):
-        st.session_state.page = "home"
-
-    st.header("🔊 AI Voice Generator")
+# 
 
    # ---------------- VOICE ----------------
 elif st.session_state.page == "voice":
