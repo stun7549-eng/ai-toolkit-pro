@@ -154,8 +154,7 @@ elif st.session_state.page == "voice":
     "👨 Male 7": "en-CA-LiamNeural",
     "👨 Male 8": "en-GB-ThomasNeural",
     "👨 Male 9": "en-NZ-MitchellNeural",
-    "👨 Male 10": "en-US-JasonNeural"
-}
+    "👨 Male 10": "en-US-JasonNeural"}
     
 
     # ✅ Text Input
