@@ -77,14 +77,41 @@ async def generate_voice(text, voice):
     import edge_tts
     import asyncio
 
-    chunks = [text[i:i+3000] for i in range(0, len(text), 3000)]
+    chunks = [text[i:i+2000] for i in range(0, len(text), 2000)]
 
     with open("voice.mp3", "wb") as audio_file:
+
         for chunk in chunks:
-            tts = edge_tts.Communicate(chunk, voice)
-            async for stream in tts.stream():
-                if stream["type"] == "audio":
-                    audio_file.write(stream["data"])
+
+            success = False
+
+            # 🔁 retry 3 times
+            for attempt in range(3):
+                try:
+                    tts = edge_tts.Communicate(chunk, voice)
+
+                    async for stream in tts.stream():
+                        if stream["type"] == "audio":
+                            audio_file.write(stream["data"])
+
+                    success = True
+                    break
+
+                except Exception as e:
+                    await asyncio.sleep(1)
+
+            # ❗ fallback to English voice
+            if not success:
+                try:
+                    fallback_voice = "en-US-GuyNeural"
+                    tts = edge_tts.Communicate(chunk, fallback_voice)
+
+                    async for stream in tts.stream():
+                        if stream["type"] == "audio":
+                            audio_file.write(stream["data"])
+
+                except:
+                    raise Exception("TTS completely failed ❌")
 # ---------------- SESSION ----------------
 if "page" not in st.session_state:
     st.session_state.page = "home"
