@@ -75,9 +75,16 @@ def srt_to_text(srt_content):
 # Voice generate
 async def generate_voice(text, voice):
     import edge_tts
-    tts = edge_tts.Communicate(text, voice)
-    await tts.save("voice.mp3")
+    import asyncio
 
+    chunks = [text[i:i+3000] for i in range(0, len(text), 3000)]
+
+    with open("voice.mp3", "wb") as audio_file:
+        for chunk in chunks:
+            tts = edge_tts.Communicate(chunk, voice)
+            async for stream in tts.stream():
+                if stream["type"] == "audio":
+                    audio_file.write(stream["data"])
 # ---------------- SESSION ----------------
 if "page" not in st.session_state:
     st.session_state.page = "home"
