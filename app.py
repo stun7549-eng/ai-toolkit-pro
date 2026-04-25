@@ -55,8 +55,8 @@ def format_time(seconds):
     millis = int((seconds - int(seconds)) * 1000)
     return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
 
-# ---------------- VOICE ----------------
-async # SRT → text ပြောင်း
+# ---------------- VOICE ---------------- # 
+# SRT → text ပြောင်း
 def srt_to_text(srt_content):
     lines = srt_content.split("\n")
     text = []
