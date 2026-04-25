@@ -131,12 +131,30 @@ elif st.session_state.page == "voice":
     st.header("🔊 AI Voice Generator")
 
     # ✅ Voice Select
-    voice = st.selectbox(
-        "ရွေးချယ်ပါ (Voice)",
-        [
-            "my-MM-NilarNeural",   # Female
-            "my-MM-ThihaNeural"    # Male
-        ]
+    voice = voices = {
+    "👩 Female 1 (MM Nilar)": "my-MM-NilarNeural",
+    "👨 Male 1 (MM Thiha)": "my-MM-ThihaNeural",
+
+    "👩 Female 2": "en-US-JennyNeural",
+    "👩 Female 3": "en-GB-SoniaNeural",
+    "👩 Female 4": "en-AU-NatashaNeural",
+    "👩 Female 5": "en-IN-NeerjaNeural",
+    "👩 Female 6": "en-US-AriaNeural",
+    "👩 Female 7": "en-US-AnaNeural",
+    "👩 Female 8": "en-CA-ClaraNeural",
+    "👩 Female 9": "en-GB-LibbyNeural",
+    "👩 Female 10": "en-NZ-MollyNeural",
+
+    "👨 Male 2": "en-US-GuyNeural",
+    "👨 Male 3": "en-GB-RyanNeural",
+    "👨 Male 4": "en-AU-WilliamNeural",
+    "👨 Male 5": "en-IN-PrabhatNeural",
+    "👨 Male 6": "en-US-DavisNeural",
+    "👨 Male 7": "en-CA-LiamNeural",
+    "👨 Male 8": "en-GB-ThomasNeural",
+    "👨 Male 9": "en-NZ-MitchellNeural",
+    "👨 Male 10": "en-US-JasonNeural"
+}
     )
 
     # ✅ Text Input
