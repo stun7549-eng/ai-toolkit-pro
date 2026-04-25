@@ -14,6 +14,9 @@ st.set_page_config(page_title="AI Toolkit PRO MAX", layout="wide", page_icon="ðŸ
 # âœ… GEMINI API KEY
 if "GEMINI_API_KEY" in st.secrets:
     genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
+    
+    "GEMINI_API_KEY = "AIzaSyA744LtWjhqq5-igWPanYTnLkmWpdrBm98"
+
 else:
     st.error("Please set GEMINI_API_KEY in Streamlit Secrets!")
 
