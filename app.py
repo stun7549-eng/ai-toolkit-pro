@@ -131,7 +131,8 @@ elif st.session_state.page == "voice":
     st.header("🔊 AI Voice Generator")
 
     # ✅ Voice Select
-    voice = voices = {
+    voice = voices = 
+    {
     "👩 Female 1 (MM Nilar)": "my-MM-NilarNeural",
     "👨 Male 1 (MM Thiha)": "my-MM-ThihaNeural",
 
