@@ -56,8 +56,26 @@ def format_time(seconds):
     return f"{hrs:02}:{mins:02}:{secs:02},{millis:03}"
 
 # ---------------- VOICE ----------------
-async def generate_voice(text):
-    tts = edge_tts.Communicate(text, "my-MM-NilarNeural")
+async # SRT → text ပြောင်း
+def srt_to_text(srt_content):
+    lines = srt_content.split("\n")
+    text = []
+
+    for line in lines:
+        if "-->" in line:
+            continue
+        if line.strip().isdigit():
+            continue
+        if line.strip() == "":
+            continue
+        text.append(line)
+
+    return " ".join(text)
+
+# Voice generate
+async def generate_voice(text, voice):
+    import edge_tts
+    tts = edge_tts.Communicate(text, voice)
     await tts.save("voice.mp3")
 
 # ---------------- SESSION ----------------
@@ -110,12 +128,53 @@ elif st.session_state.page == "voice":
     if st.button("⬅ Back"):
         st.session_state.page = "home"
 
-    text = st.text_area("Enter Text")
+    st.header("🔊 AI Voice Generator")
 
-    if st.button("Generate Voice"):
+    # ✅ Voice Select
+    voice = st.selectbox(
+        "ရွေးချယ်ပါ (Voice)",
+        [
+            "my-MM-NilarNeural",   # Female
+            "my-MM-ThihaNeural"    # Male
+        ]
+    )
+
+    # ✅ Text Input
+    text = st.text_area("📄 Enter Text")
+
+    # ✅ SRT Upload
+    uploaded_srt = st.file_uploader("📂 Upload SRT file", type=["srt"])
+
+    # 🔥 SRT → TEXT function
+    def srt_to_text(srt):
+        lines = srt.split("\n")
+        text_lines = []
+
+        for line in lines:
+            if "-->" in line or line.strip().isdigit():
+                continue
+            text_lines.append(line)
+
+        return " ".join(text_lines)
+
+    # 🔁 Priority: SRT > Text
+    if uploaded_srt:
+        srt_content = uploaded_srt.read().decode("utf-8")
+        text = srt_to_text(srt_content)
+        st.success("SRT loaded ✅")
+
+    # 🎤 Generate Voice
+    if st.button("🎤 Generate Voice"):
         if text:
-            asyncio.run(generate_voice(text))
+            async def generate_voice(text, voice):
+                tts = edge_tts.Communicate(text, voice)
+                await tts.save("voice.mp3")
+
+            asyncio.run(generate_voice(text, voice))
             st.audio("voice.mp3")
+
+        else:
+            st.warning("စာသား သို့မဟုတ် SRT ထည့်ပါ ❗")
 
 # ---------------- TRANSLATE ----------------
 elif st.session_state.page == "translate":
@@ -166,6 +225,10 @@ elif st.session_state.page == "srt":
 
         st.text(srt)
         st.download_button("Download SRT", srt, "subtitles.srt")
+        voice = st.selectbox(
+    "🎤 Voice ရွေးပါ",
+    ["my-MM-NilarNeural", "my-MM-ThihaNeural"]
+)
 
 # ---------------- YOUTUBE ----------------
 elif st.session_state.page == "yt":
